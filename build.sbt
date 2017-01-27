@@ -1,0 +1,9 @@
+name := """poker-combinations"""
+
+version := "0.1-SNAPSHOT"
+
+scalaVersion := "2.11.8"
+
+libraryDependencies += "com.novocode" % "junit-interface" % "0.11" % "test"
+
+libraryDependencies += "org.scalatest" % "scalatest_2.11" % "3.0.1"
