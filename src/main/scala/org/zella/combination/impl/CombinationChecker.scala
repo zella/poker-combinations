@@ -211,8 +211,9 @@ class CombinationChecker(cards: Seq[ICard]) extends ICombinationChecker {
         //take 5: Q Q Q A J
         val comb = (_three ++ sortedByRanks.diff(_three.toSet)).take(FIVE)
         Some(comb, WEIGHT_THREE +
-          comb.toIndexedSeq(3).rank.getWeight * MULT_1 +
-          comb.toIndexedSeq(4).rank.getWeight * MULT_2
+          comb.toIndexedSeq(0).rank.getWeight * MULT_1 +
+          comb.toIndexedSeq(3).rank.getWeight * MULT_2 +
+          comb.toIndexedSeq(4).rank.getWeight * MULT_3
         )
     }
   }

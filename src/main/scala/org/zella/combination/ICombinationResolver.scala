@@ -21,6 +21,6 @@ trait ICombinationResolver[T] {
   def resolve(
                playersCards: mutable.Map[T, Seq[ICard]],
                tableCards: Seq[ICard]
-             ): Seq[((Seq[ICard], Int), T)]
+             ): Seq[((Seq[ICard], Long), T)]
 
 }

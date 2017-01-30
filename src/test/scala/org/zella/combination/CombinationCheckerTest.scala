@@ -403,7 +403,7 @@ class CombinationCheckerTest extends Matchers {
       Card(Diamond, N(8)),
       Card(Heart, N(8)),
       Card(Club, A),
-      Card(Heart, J)), 40000000000L + 100000000 * 14 + 1000000 * 11)
+      Card(Heart, J)), 40000000000L + 100000000 * 8 + 1000000 * 14 + 10000 * 11)
   }
 
   @Test
