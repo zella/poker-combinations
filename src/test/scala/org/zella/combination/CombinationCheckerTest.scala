@@ -5,7 +5,7 @@ import org.scalatest.Matchers
 import org.zella.cards.Card
 import org.zella.cards.Ranks._
 import org.zella.cards.Suits._
-import org.zella.combination.impl.CombinationChecker
+import org.zella.combination.impl.{Combination, CombinationChecker}
 
 /**
   * @author zella.
@@ -62,12 +62,20 @@ class CombinationCheckerTest extends Matchers {
       Card(Diamond, N(8))
     )
 
-    new CombinationChecker(cards).check1RoyalFlush() shouldBe Some(Seq(
-      Card(Diamond, A),
-      Card(Diamond, K),
-      Card(Diamond, Q),
-      Card(Diamond, J),
-      Card(Diamond, N(10))), 100000000000L)
+    new CombinationChecker(cards).check1RoyalFlush() shouldBe Some(Combination(
+      Seq(
+        Card(Diamond, A),
+        Card(Diamond, K),
+        Card(Diamond, Q),
+        Card(Diamond, J),
+        Card(Diamond, N(10))),
+      Seq(
+        Card(Diamond, A),
+        Card(Diamond, K),
+        Card(Diamond, Q),
+        Card(Diamond, J),
+        Card(Diamond, N(10))),
+      100000000000L))
   }
 
   @Test
@@ -116,12 +124,20 @@ class CombinationCheckerTest extends Matchers {
       Card(Diamond, N(4))
     )
 
-    new CombinationChecker(cards).check2StraightFlush() shouldBe Some(Seq(
-      Card(Diamond, N(5)),
-      Card(Diamond, N(4)),
-      Card(Diamond, N(3)),
-      Card(Diamond, N(2)),
-      Card(Diamond, A)), 90000000000L + 100000000 * 5)
+    new CombinationChecker(cards).check2StraightFlush() shouldBe Some(Combination(
+      Seq(
+        Card(Diamond, N(5)),
+        Card(Diamond, N(4)),
+        Card(Diamond, N(3)),
+        Card(Diamond, N(2)),
+        Card(Diamond, A)),
+      Seq(
+        Card(Diamond, N(5)),
+        Card(Diamond, N(4)),
+        Card(Diamond, N(3)),
+        Card(Diamond, N(2)),
+        Card(Diamond, A)),
+      90000000000L + 100000000 * 5))
   }
 
   @Test
@@ -139,12 +155,20 @@ class CombinationCheckerTest extends Matchers {
       Card(Spade, J)
     )
 
-    new CombinationChecker(cards).check2StraightFlush() shouldBe Some(Seq(
-      Card(Diamond, Q),
-      Card(Diamond, J),
-      Card(Diamond, N(10)),
-      Card(Diamond, N(9)),
-      Card(Diamond, N(8))), 90000000000L + 100000000 * 12)
+    new CombinationChecker(cards).check2StraightFlush() shouldBe Some(Combination(
+      Seq(
+        Card(Diamond, Q),
+        Card(Diamond, J),
+        Card(Diamond, N(10)),
+        Card(Diamond, N(9)),
+        Card(Diamond, N(8))),
+      Seq(
+        Card(Diamond, Q),
+        Card(Diamond, J),
+        Card(Diamond, N(10)),
+        Card(Diamond, N(9)),
+        Card(Diamond, N(8))),
+      90000000000L + 100000000 * 12))
   }
 
   @Test
@@ -197,12 +221,19 @@ class CombinationCheckerTest extends Matchers {
       Card(Heart, Q)
     )
 
-    new CombinationChecker(cards).check3Kare() shouldBe Some(Seq(
-      Card(Spade, Q),
-      Card(Diamond, Q),
-      Card(Club, Q),
-      Card(Heart, Q),
-      Card(Diamond, A)), 80000000000L + 100000000 * 12 + 1000000 * 14)
+    new CombinationChecker(cards).check3Kare() shouldBe Some(Combination(
+      Seq(
+        Card(Spade, Q),
+        Card(Diamond, Q),
+        Card(Club, Q),
+        Card(Heart, Q),
+        Card(Diamond, A)),
+      Seq(
+        Card(Spade, Q),
+        Card(Diamond, Q),
+        Card(Club, Q),
+        Card(Heart, Q)),
+      80000000000L + 100000000 * 12 + 1000000 * 14))
   }
 
   @Test
@@ -220,12 +251,19 @@ class CombinationCheckerTest extends Matchers {
       Card(Spade, K)
     )
 
-    new CombinationChecker(cards).check3Kare() shouldBe Some(Seq(
-      Card(Diamond, K),
-      Card(Club, K),
-      Card(Heart, K),
-      Card(Spade, K),
-      Card(Club, Q)), 80000000000L + 100000000 * 13 + 1000000 * 12)
+    new CombinationChecker(cards).check3Kare() shouldBe Some(Combination(
+      Seq(
+        Card(Diamond, K),
+        Card(Club, K),
+        Card(Heart, K),
+        Card(Spade, K),
+        Card(Club, Q)),
+      Seq(
+        Card(Diamond, K),
+        Card(Club, K),
+        Card(Heart, K),
+        Card(Spade, K)),
+      80000000000L + 100000000 * 13 + 1000000 * 12))
   }
 
   @Test
@@ -260,12 +298,19 @@ class CombinationCheckerTest extends Matchers {
       Card(Spade, K)
     )
 
-    new CombinationChecker(cards).check4FullHouse() shouldBe Some(Seq(
-      Card(Club, K),
-      Card(Heart, K),
-      Card(Spade, K),
-      Card(Diamond, J),
-      Card(Spade, J)), 70000000000L + 100000000 * 13 + 1000000 * 11)
+    new CombinationChecker(cards).check4FullHouse() shouldBe Some(Combination(
+      Seq(
+        Card(Club, K),
+        Card(Heart, K),
+        Card(Spade, K),
+        Card(Diamond, J),
+        Card(Spade, J)),
+      Seq(
+        Card(Club, K),
+        Card(Heart, K),
+        Card(Spade, K),
+        Card(Diamond, J),
+        Card(Spade, J)), 70000000000L + 100000000 * 13 + 1000000 * 11))
   }
 
   @Test
@@ -282,12 +327,20 @@ class CombinationCheckerTest extends Matchers {
       Card(Diamond, N(3))
     )
 
-    new CombinationChecker(cards).check4FullHouse() shouldBe Some(Seq(
-      Card(Diamond, J),
-      Card(Spade, J),
-      Card(Heart, J),
-      Card(Club, K),
-      Card(Heart, K)), 70000000000L + 100000000 * 11 + 1000000 * 13)
+    new CombinationChecker(cards).check4FullHouse() shouldBe Some(Combination(
+      Seq(
+        Card(Diamond, J),
+        Card(Spade, J),
+        Card(Heart, J),
+        Card(Club, K),
+        Card(Heart, K)),
+      Seq(
+        Card(Diamond, J),
+        Card(Spade, J),
+        Card(Heart, J),
+        Card(Club, K),
+        Card(Heart, K)),
+      70000000000L + 100000000 * 11 + 1000000 * 13))
   }
 
   @Test
@@ -321,12 +374,20 @@ class CombinationCheckerTest extends Matchers {
       Card(Club, N(3))
     )
 
-    new CombinationChecker(cards).check5Flush() shouldBe Some(Seq(
-      Card(Club, K),
-      Card(Club, Q),
-      Card(Club, N(10)),
-      Card(Club, N(8)),
-      Card(Club, N(3))), 60000000000L + 100000000 * 13 + 1000000 * 12 + 10000 * 10 + 100 * 8 + 3)
+    new CombinationChecker(cards).check5Flush() shouldBe Some(Combination(
+      Seq(
+        Card(Club, K),
+        Card(Club, Q),
+        Card(Club, N(10)),
+        Card(Club, N(8)),
+        Card(Club, N(3))),
+      Seq(
+        Card(Club, K),
+        Card(Club, Q),
+        Card(Club, N(10)),
+        Card(Club, N(8)),
+        Card(Club, N(3))),
+      60000000000L + 100000000 * 13 + 1000000 * 12 + 10000 * 10 + 100 * 8 + 3))
 
   }
 
@@ -361,12 +422,20 @@ class CombinationCheckerTest extends Matchers {
       Card(Club, A)
     )
 
-    new CombinationChecker(cards).check6Straight() shouldBe Some(Seq(
-      Card(Club, A),
-      Card(Club, K),
-      Card(Club, Q),
-      Card(Diamond, J),
-      Card(Club, N(10))), 50000000000L + 100000000 * 14)
+    new CombinationChecker(cards).check6Straight() shouldBe Some(Combination(
+      Seq(
+        Card(Club, A),
+        Card(Club, K),
+        Card(Club, Q),
+        Card(Diamond, J),
+        Card(Club, N(10))),
+      Seq(
+        Card(Club, A),
+        Card(Club, K),
+        Card(Club, Q),
+        Card(Diamond, J),
+        Card(Club, N(10))),
+      50000000000L + 100000000 * 14))
   }
 
   @Test
@@ -398,12 +467,19 @@ class CombinationCheckerTest extends Matchers {
       Card(Club, A)
     )
 
-    new CombinationChecker(cards).check7Three() shouldBe Some(Seq(
-      Card(Club, N(8)),
-      Card(Diamond, N(8)),
-      Card(Heart, N(8)),
-      Card(Club, A),
-      Card(Heart, J)), 40000000000L + 100000000 * 8 + 1000000 * 14 + 10000 * 11)
+    new CombinationChecker(cards).check7Three() shouldBe Some(Combination(
+      Seq(
+        Card(Club, N(8)),
+        Card(Diamond, N(8)),
+        Card(Heart, N(8)),
+        Card(Club, A),
+        Card(Heart, J)),
+      Seq(
+        Card(Club, N(8)),
+        Card(Diamond, N(8)),
+        Card(Heart, N(8))),
+      40000000000L + 100000000 * 8 + 1000000 * 14 + 10000 * 11
+    ))
   }
 
   @Test
@@ -436,12 +512,19 @@ class CombinationCheckerTest extends Matchers {
       Card(Heart, J)
     )
 
-    new CombinationChecker(cards).check8TwoPair() shouldBe Some(Seq(
-      Card(Spade, N(9)),
-      Card(Heart, N(9)),
-      Card(Club, N(8)),
-      Card(Diamond, N(8)),
-      Card(Club, K)), 30000000000L + 100000000 * 9 + 1000000 * 8 + 10000 * 13)
+    new CombinationChecker(cards).check8TwoPair() shouldBe Some(Combination(
+      Seq(
+        Card(Spade, N(9)),
+        Card(Heart, N(9)),
+        Card(Club, N(8)),
+        Card(Diamond, N(8)),
+        Card(Club, K)),
+      Seq(
+        Card(Spade, N(9)),
+        Card(Heart, N(9)),
+        Card(Club, N(8)),
+        Card(Diamond, N(8))),
+      30000000000L + 100000000 * 9 + 1000000 * 8 + 10000 * 13))
   }
 
 
@@ -474,12 +557,17 @@ class CombinationCheckerTest extends Matchers {
       Card(Heart, J)
     )
 
-    new CombinationChecker(cards).check9Pair() shouldBe Some(Seq(
-      Card(Diamond, N(3)),
-      Card(Heart, N(3)),
-      Card(Club, K),
-      Card(Heart, Q),
-      Card(Heart, J)), 20000000000L + 100000000 * 3 + 1000000 * 13 + 10000 * 12 + 100 * 11)
+    new CombinationChecker(cards).check9Pair() shouldBe Some(Combination(
+      Seq(
+        Card(Diamond, N(3)),
+        Card(Heart, N(3)),
+        Card(Club, K),
+        Card(Heart, Q),
+        Card(Heart, J)),
+      Seq(
+        Card(Diamond, N(3)),
+        Card(Heart, N(3))),
+      20000000000L + 100000000 * 3 + 1000000 * 13 + 10000 * 12 + 100 * 11))
   }
 
   @Test
@@ -511,12 +599,16 @@ class CombinationCheckerTest extends Matchers {
       Card(Heart, J)
     )
 
-    new CombinationChecker(cards).check10HighCard() shouldBe Some(Seq(
-      Card(Club, K),
-      Card(Heart, Q),
-      Card(Heart, J),
-      Card(Spade, N(9)),
-      Card(Club, N(8))), 10000000000L + 100000000 * 13 + 1000000 * 12 + 10000 * 11 + 100 * 9 + 8)
+    new CombinationChecker(cards).check10HighCard() shouldBe Some(Combination(
+      Seq(
+        Card(Club, K),
+        Card(Heart, Q),
+        Card(Heart, J),
+        Card(Spade, N(9)),
+        Card(Club, N(8))),
+      Seq(
+        Card(Club, K)),
+      10000000000L + 100000000 * 13 + 1000000 * 12 + 10000 * 11 + 100 * 9 + 8))
   }
 
   @Deprecated

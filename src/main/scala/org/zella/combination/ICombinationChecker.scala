@@ -1,6 +1,6 @@
 package org.zella.combination
 
-import org.zella.cards.ICard
+import org.zella.combination.impl.Combination
 
 /**
   *
@@ -12,24 +12,24 @@ import org.zella.cards.ICard
   */
 trait ICombinationChecker {
 
-  def check1RoyalFlush(): Option[(Seq[ICard], Long)]
+  def check1RoyalFlush(): Option[Combination]
 
-  def check2StraightFlush(): Option[(Seq[ICard], Long)]
+  def check2StraightFlush(): Option[Combination]
 
-  def check3Kare(): Option[(Seq[ICard], Long)]
+  def check3Kare(): Option[Combination]
 
-  def check4FullHouse(): Option[(Seq[ICard], Long)]
+  def check4FullHouse(): Option[Combination]
 
-  def check5Flush(): Option[(Seq[ICard], Long)]
+  def check5Flush(): Option[Combination]
 
-  def check6Straight(): Option[(Seq[ICard], Long)]
+  def check6Straight(): Option[Combination]
 
-  def check7Three(): Option[(Seq[ICard], Long)]
+  def check7Three(): Option[Combination]
 
-  def check8TwoPair(): Option[(Seq[ICard], Long)]
+  def check8TwoPair(): Option[Combination]
 
-  def check9Pair(): Option[(Seq[ICard], Long)]
+  def check9Pair(): Option[Combination]
 
-  def check10HighCard(): Option[(Seq[ICard], Long)]
+  def check10HighCard(): Option[Combination]
 
 }

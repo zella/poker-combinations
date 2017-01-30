@@ -1,6 +1,7 @@
 package org.zella.combination
 
 import org.zella.cards.ICard
+import org.zella.combination.impl.Combination
 
 import scala.collection.mutable
 
@@ -21,6 +22,6 @@ trait ICombinationResolver[T] {
   def resolve(
                playersCards: mutable.Map[T, Seq[ICard]],
                tableCards: Seq[ICard]
-             ): Seq[((Seq[ICard], Long), T)]
+             ): Seq[(Combination, T)]
 
 }
