@@ -1,5 +1,7 @@
 package org.zella.cards
 
+import com.danko.utils.Json
+import com.fasterxml.jackson.databind.JsonNode
 import org.zella.cards.Ranks._
 import org.zella.cards.Suits._
 
@@ -17,6 +19,8 @@ trait ICard extends Weight {
   def suit: Suit
 
   def rank: Rank
+
+  def toJson: JsonNode
 }
 
 case class Card(_suit: Suit, _rank: Rank) extends ICard {
@@ -25,21 +29,16 @@ case class Card(_suit: Suit, _rank: Rank) extends ICard {
   override def rank: Rank = _rank
 
   override val getWeight: Int = rank.getWeight
+
+  override def toJson: JsonNode = {
+    val json = Json.newObject()
+    json.put("r", _rank.id)
+    json.put("s", _suit.name)
+  }
 }
 
-//@Deprecated
-//trait CombinationWeight {
-//  @Deprecated
-//  def kickerWeight: Int
-//
-//  @Deprecated
-//  def combinationWeight: Int
-//
-//  @Deprecated
-//  def subCombinationWeight: Int
-//}
 
-trait Weight extends Ordered[Weight] with Comparable[Weight] {
+trait Weight extends Ordered[Weight] {
   val getWeight: Int
 
   override def compare(that: Weight): Int = this.getWeight compareTo that.getWeight
@@ -52,41 +51,44 @@ object Weight {
 /**
   * Масть
   */
-trait Suit extends Weight
+trait Suit extends Weight {
+  def name: String
+}
 
 object Suits {
 
   //пики
   case object Spade extends Suit {
     override val getWeight: Int = 1
+
+    override def name: String = "S"
   }
 
   //крести(трефы)
   case object Club extends Suit {
     override val getWeight: Int = 2
+
+    override def name: String = "C"
   }
 
   //буби
   case object Diamond extends Suit {
     override val getWeight: Int = 3
+
+    override def name: String = "D"
   }
 
   //черви
   case object Heart extends Suit {
     override val getWeight: Int = 4
+
+    override def name: String = "H"
   }
 
 }
 
-trait Rank extends Weight  {
+trait Rank extends Weight {
   def id: Int
-//
-//  override val kickerWeight: Int = getWeight
-
-//  override val combinationWeight: Int = getWeight * 1000000
-//
-//  override val subCombinationWeight: Int = getWeight * 100000
-
 }
 
 object Ranks {
