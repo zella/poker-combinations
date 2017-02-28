@@ -1,15 +1,6 @@
 package org.zella.cards
 
-import com.danko.utils.Json
-import com.fasterxml.jackson.databind.JsonNode
-import org.zella.cards.Ranks._
-import org.zella.cards.Suits._
-
-import scala.collection.mutable
-
-//TODO change modularity
-
-//TODO simplification (Weigth+CombinationWeight=Weight)
+import play.api.libs.json.{JsValue, Json}
 
 /**
   * @author zella.
@@ -20,7 +11,7 @@ trait ICard extends Weight {
 
   def rank: Rank
 
-  def toJson: JsonNode
+  def toJson: JsValue
 }
 
 case class Card(_suit: Suit, _rank: Rank) extends ICard {
@@ -30,10 +21,11 @@ case class Card(_suit: Suit, _rank: Rank) extends ICard {
 
   override val getWeight: Int = rank.getWeight
 
-  override def toJson: JsonNode = {
-    val json = Json.newObject()
-    json.put("r", _rank.id)
-    json.put("s", _suit.name)
+  override lazy val toJson: JsValue = {
+    Json.obj(
+      "r" -> _rank.id,
+      "s" -> _suit.name
+    )
   }
 }
 
