@@ -38,8 +38,8 @@ class CombinationChecker(cards: Seq[ICard]) extends ICombinationChecker {
   }
 
   def sortByRankTyzLower(cards: Seq[ICard]): Seq[ICard] = cards.sortWith((c1, c2) => {
-    val r1 = if (c1.rank.eq(A)) N(1) else c1.rank
-    val r2 = if (c2.rank.eq(A)) N(1) else c2.rank
+    val r1 = if (c1.rank.equals(A)) N(1) else c1.rank
+    val r2 = if (c2.rank.equals(A)) N(1) else c2.rank
     r1 > r2
   })
 
