@@ -6,6 +6,9 @@ import org.zella.cards.Card
 import org.zella.cards.Ranks._
 import org.zella.cards.Suits._
 import org.zella.combination.impl.CombinationChecker
+import org.zella.cards.Card
+import org.zella.cards.Ranks._
+import org.zella.cards.Suits._
 
 /**
   * @author zella.
@@ -22,7 +25,7 @@ class CombinationCheckerTest extends Matchers {
       Card(Club, N(10)),
       Card(Diamond, N(8)))
 
-    new CombinationChecker(cards).sortByRank(cards) should contain theSameElementsAs Set(
+    new CombinationChecker(cards).sortByRank(cards).toSeq should contain theSameElementsInOrderAs Seq(
       Card(Club, A),
       Card(Club, K),
       Card(Heart, N(10)),
@@ -40,7 +43,7 @@ class CombinationCheckerTest extends Matchers {
       Card(Club, N(10)),
       Card(Diamond, N(8)))
 
-    new CombinationChecker(cards).sortByRankTyzLower(cards) shouldBe Seq(
+    new CombinationChecker(cards).sortByRankTyzLower(cards) should contain theSameElementsInOrderAs Seq(
       Card(Club, K),
       Card(Heart, N(10)),
       Card(Club, N(10)),
