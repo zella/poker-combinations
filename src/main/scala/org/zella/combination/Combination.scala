@@ -1,4 +1,4 @@
-package org.zella.combination.impl
+package org.zella.combination
 
 import org.zella.cards.ICard
 import play.api.libs.json.{JsValue, Json}

@@ -1,9 +1,7 @@
 package org.zella.combination.impl
 
 import org.zella.cards.ICard
-import org.zella.combination.ICombinationResolver
-
-import scala.collection.mutable
+import org.zella.combination.{Combination, ICombinationResolver}
 
 /**
   * @author zella.
@@ -11,7 +9,7 @@ import scala.collection.mutable
 class CombinationResolver[T] extends ICombinationResolver[T] {
 
   override def resolve(
-                        playersCards: mutable.Map[T, Seq[ICard]],
+                        playersCards: Map[T, Seq[ICard]],
                         tableCards: Seq[ICard]):
   Seq[(Combination, T)] = {
 
@@ -22,7 +20,7 @@ class CombinationResolver[T] extends ICombinationResolver[T] {
   private def checkCombination(cards: Seq[ICard]): Combination = {
 
     val cc = new CombinationChecker(cards)
-    //
+
     val check1: Option[Combination] = cc.check1RoyalFlush()
     if (check1.isDefined) return check1.get
     val check2: Option[Combination] = cc.check2StraightFlush()
@@ -43,7 +41,7 @@ class CombinationResolver[T] extends ICombinationResolver[T] {
     if (check9.isDefined) return check9.get
     val check10: Option[Combination] = cc.check10HighCard()
     if (check10.isDefined) return check10.get
-    throw new RuntimeException("Poker combination not found, this should never happen")
+    throw new RuntimeException("Poker combination not found, this should never happen, this is bug")
   }
 
   private def resolverSingle(playerCards: Seq[ICard],

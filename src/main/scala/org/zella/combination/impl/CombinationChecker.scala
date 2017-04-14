@@ -2,7 +2,7 @@ package org.zella.combination.impl
 
 import org.zella.cards.Ranks._
 import org.zella.cards.{Card, ICard, Rank, Weight}
-import org.zella.combination.ICombinationChecker
+import org.zella.combination.{Combination, ICombinationChecker}
 
 import scala.collection.mutable
 
@@ -100,7 +100,7 @@ class CombinationChecker(cards: Seq[ICard]) extends ICombinationChecker {
     }
   }
 
-  //TODO test, maybe ok
+
   override def check2StraightFlush(): Option[Combination] = {
     val sameSuits = sortByRank(cards).groupBy(_.suit).find(_._2.size >= 5).map(_._2.toSeq)
     sameSuits match {
@@ -109,7 +109,7 @@ class CombinationChecker(cards: Seq[ICard]) extends ICombinationChecker {
     }
   }
 
-  //TODO test, maybe ok
+
   override def check3Kare(): Option[Combination] = {
 
     val sortedByRanks = sortByRank(cards)
@@ -132,7 +132,7 @@ class CombinationChecker(cards: Seq[ICard]) extends ICombinationChecker {
     }
   }
 
-  //TODO test, maybe ok
+
   override def check4FullHouse(): Option[Combination] = {
 
     val sortedByRanks = sortByRank(cards)
@@ -163,7 +163,7 @@ class CombinationChecker(cards: Seq[ICard]) extends ICombinationChecker {
     }
   }
 
-  //TODO test, maybe ok
+
   override def check5Flush(): Option[Combination] = {
     val sortedByRanks = sortByRank(cards)
     sortedByRanks
@@ -180,13 +180,13 @@ class CombinationChecker(cards: Seq[ICard]) extends ICombinationChecker {
       )
   }
 
-  //TODO test, maybe ok
+
   override def check6Straight(): Option[Combination] = {
     val sortedByRanks = sortByRank(cards)
     isStraightInternal(sortedByRanks.toSeq, WEIGHT_STRAIGHT)
   }
 
-  //TODO test, maybe ok
+
   override def check7Three(): Option[Combination] = {
 
     val sortedByRanks = sortByRank(cards)
@@ -210,7 +210,7 @@ class CombinationChecker(cards: Seq[ICard]) extends ICombinationChecker {
     }
   }
 
-  //TODO test, maybe ok
+
   override def check8TwoPair(): Option[Combination] = {
     val sortedByRanks = sortByRank(cards)
 

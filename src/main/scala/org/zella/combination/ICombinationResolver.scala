@@ -1,9 +1,6 @@
 package org.zella.combination
 
 import org.zella.cards.ICard
-import org.zella.combination.impl.Combination
-
-import scala.collection.mutable
 
 /**
   * Resolves table and players cards to ordered table of combinations and weights
@@ -20,7 +17,7 @@ trait ICombinationResolver[T] {
     * @return ordered seq type of [(combination, combination weight), player]
     */
   def resolve(
-               playersCards: mutable.Map[T, Seq[ICard]],
+               playersCards: Map[T, Seq[ICard]],
                tableCards: Seq[ICard]
              ): Seq[(Combination, T)]
 

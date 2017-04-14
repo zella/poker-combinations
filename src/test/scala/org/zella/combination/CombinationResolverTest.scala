@@ -6,7 +6,7 @@ import org.scalatest.Matchers
 import org.zella.cards.Ranks._
 import org.zella.cards.Suits._
 import org.zella.cards.{Card, _}
-import org.zella.combination.impl.{Combination, CombinationResolver}
+import org.zella.combination.impl.CombinationResolver
 
 import scala.collection.mutable
 
@@ -18,7 +18,7 @@ class CombinationResolverTest extends Matchers {
   @Test
   def resolve(): Unit = {
 
-    val playersAndCards = mutable.Map[String, Seq[ICard]](
+    val playersAndCards = Map[String, Seq[ICard]](
       "1" -> Seq(Card(Heart, A), Card(Diamond, K)),
       "2" -> Seq(Card(Heart, N(10)), Card(Diamond, N(10))),
       "3" -> Seq(Card(Club, Q), Card(Diamond, J)),

@@ -1,7 +1,5 @@
 package org.zella.combination
 
-import org.zella.combination.impl.Combination
-
 /**
   *
   * Проверяет является - ли набор карт комбинацией

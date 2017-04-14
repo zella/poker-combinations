@@ -5,7 +5,7 @@ import org.scalatest.Matchers
 import org.zella.cards.Card
 import org.zella.cards.Ranks._
 import org.zella.cards.Suits._
-import org.zella.combination.impl.{Combination, CombinationChecker}
+import org.zella.combination.impl.CombinationChecker
 
 /**
   * @author zella.
