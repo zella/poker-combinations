@@ -1,7 +1,7 @@
 package org.zella.combination.impl
 
 import org.zella.cards.Ranks._
-import org.zella.cards.{Card, ICard, Rank, Weight}
+import org.zella.cards.{Card, ICard, Weight}
 import org.zella.combination.{Combination, ICombinationChecker}
 
 import scala.collection.mutable
@@ -62,25 +62,25 @@ class CombinationChecker(cards: Seq[ICard]) extends ICombinationChecker {
     val withhoutDuplicates = groupByRankOrdered(sorted).sortBy(_._1).reverse.map(_._2.head)
 
     var test = subSeqBasedOnRank(withhoutDuplicates, Seq(N(10), J, Q, K, A).reverse)
-    if (test.isDefined) return test.map(seq => Combination(seq, seq, baseWeight + A.getWeight * MULT_1))
+    if (test.isDefined) return test.map(seq => Combination(seq, seq, baseWeight + A.weight * MULT_1))
     test = subSeqBasedOnRank(withhoutDuplicates, Seq(N(9), N(10), J, Q, K).reverse)
-    if (test.isDefined) return test.map(seq => Combination(seq, seq, baseWeight + K.getWeight * MULT_1))
+    if (test.isDefined) return test.map(seq => Combination(seq, seq, baseWeight + K.weight * MULT_1))
     test = subSeqBasedOnRank(withhoutDuplicates, Seq(N(8), N(9), N(10), J, Q).reverse)
-    if (test.isDefined) return test.map(seq => Combination(seq, seq, baseWeight + Q.getWeight * MULT_1))
+    if (test.isDefined) return test.map(seq => Combination(seq, seq, baseWeight + Q.weight * MULT_1))
     test = subSeqBasedOnRank(withhoutDuplicates, Seq(N(7), N(8), N(9), N(10), J).reverse)
-    if (test.isDefined) return test.map(seq => Combination(seq, seq, baseWeight + J.getWeight * MULT_1))
+    if (test.isDefined) return test.map(seq => Combination(seq, seq, baseWeight + J.weight * MULT_1))
     test = subSeqBasedOnRank(withhoutDuplicates, Seq(N(6), N(7), N(8), N(9), N(10)).reverse)
-    if (test.isDefined) return test.map(seq => Combination(seq, seq, baseWeight + N(10).getWeight * MULT_1))
+    if (test.isDefined) return test.map(seq => Combination(seq, seq, baseWeight + N(10).weight * MULT_1))
     test = subSeqBasedOnRank(withhoutDuplicates, Seq(N(5), N(6), N(7), N(8), N(9)).reverse)
-    if (test.isDefined) return test.map(seq => Combination(seq, seq, baseWeight + N(9).getWeight * MULT_1))
+    if (test.isDefined) return test.map(seq => Combination(seq, seq, baseWeight + N(9).weight * MULT_1))
     test = subSeqBasedOnRank(withhoutDuplicates, Seq(N(4), N(5), N(6), N(7), N(8)).reverse)
-    if (test.isDefined) return test.map(seq => Combination(seq, seq, baseWeight + N(8).getWeight * MULT_1))
+    if (test.isDefined) return test.map(seq => Combination(seq, seq, baseWeight + N(8).weight * MULT_1))
     test = subSeqBasedOnRank(withhoutDuplicates, Seq(N(3), N(4), N(5), N(6), N(7)).reverse)
-    if (test.isDefined) return test.map(seq => Combination(seq, seq, baseWeight + N(7).getWeight * MULT_1))
+    if (test.isDefined) return test.map(seq => Combination(seq, seq, baseWeight + N(7).weight * MULT_1))
     test = subSeqBasedOnRank(withhoutDuplicates, Seq(N(2), N(3), N(4), N(5), N(6)).reverse)
-    if (test.isDefined) return test.map(seq => Combination(seq, seq, baseWeight + N(6).getWeight * MULT_1))
+    if (test.isDefined) return test.map(seq => Combination(seq, seq, baseWeight + N(6).weight * MULT_1))
     test = subSeqBasedOnRank(sortByRankTyzLower(withhoutDuplicates), Seq(A, N(2), N(3), N(4), N(5)).reverse)
-    if (test.isDefined) return test.map(seq => Combination(seq, seq, baseWeight + N(5).getWeight * MULT_1))
+    if (test.isDefined) return test.map(seq => Combination(seq, seq, baseWeight + N(5).weight * MULT_1))
     None
   }
 
@@ -126,8 +126,8 @@ class CombinationChecker(cards: Seq[ICard]) extends ICombinationChecker {
         //take 5: Q Q Q Q A
         val comb = (_four ++ sortedByRanks.diff(_four.toSet)).take(5)
         Some(Combination(comb, comb.take(4), WEIGHT_KARE +
-          comb.toIndexedSeq(1).rank.getWeight * MULT_1 +
-          comb.toIndexedSeq(4).rank.getWeight * MULT_2
+          comb.toIndexedSeq(1).rank.weight * MULT_1 +
+          comb.toIndexedSeq(4).rank.weight * MULT_2
         ))
     }
   }
@@ -156,8 +156,8 @@ class CombinationChecker(cards: Seq[ICard]) extends ICombinationChecker {
             val comb = present ++ presentAlso
 
             Some(Combination(comb, comb, WEIGHT_FULL_HOUSE +
-              comb.toIndexedSeq(0).rank.getWeight * MULT_1 +
-              comb.toIndexedSeq(3).rank.getWeight * MULT_2
+              comb.toIndexedSeq(0).rank.weight * MULT_1 +
+              comb.toIndexedSeq(3).rank.weight * MULT_2
             ))
         }
     }
@@ -172,11 +172,11 @@ class CombinationChecker(cards: Seq[ICard]) extends ICombinationChecker {
       .map(_._2.take(5).toSeq)
       .map(_cards => Combination(_cards, _cards,
         WEIGHT_FLUSH +
-          _cards.toIndexedSeq(0).rank.getWeight * MULT_1 +
-          _cards.toIndexedSeq(1).rank.getWeight * MULT_2 +
-          _cards.toIndexedSeq(2).rank.getWeight * MULT_3 +
-          _cards.toIndexedSeq(3).rank.getWeight * MULT_4 +
-          _cards.toIndexedSeq(4).rank.getWeight * MULT_5)
+          _cards.toIndexedSeq(0).rank.weight * MULT_1 +
+          _cards.toIndexedSeq(1).rank.weight * MULT_2 +
+          _cards.toIndexedSeq(2).rank.weight * MULT_3 +
+          _cards.toIndexedSeq(3).rank.weight * MULT_4 +
+          _cards.toIndexedSeq(4).rank.weight * MULT_5)
       )
   }
 
@@ -203,9 +203,9 @@ class CombinationChecker(cards: Seq[ICard]) extends ICombinationChecker {
         //take 5: Q Q Q A J
         val comb = (_three ++ sortedByRanks.diff(_three.toSet)).take(5)
         Some(Combination(comb, comb.take(3), WEIGHT_THREE +
-          comb.toIndexedSeq(0).rank.getWeight * MULT_1 +
-          comb.toIndexedSeq(3).rank.getWeight * MULT_2 +
-          comb.toIndexedSeq(4).rank.getWeight * MULT_3
+          comb.toIndexedSeq(0).rank.weight * MULT_1 +
+          comb.toIndexedSeq(3).rank.weight * MULT_2 +
+          comb.toIndexedSeq(4).rank.weight * MULT_3
         ))
     }
   }
@@ -240,10 +240,10 @@ class CombinationChecker(cards: Seq[ICard]) extends ICombinationChecker {
             val comb = (present ++ presentAlso ++ res2).take(5)
 
             Some(Combination(comb, comb.take(4), WEIGHT_TWO_PAIR +
-              comb.toIndexedSeq(0).rank.getWeight * MULT_1 +
-              comb.toIndexedSeq(2).rank.getWeight * MULT_2 +
+              comb.toIndexedSeq(0).rank.weight * MULT_1 +
+              comb.toIndexedSeq(2).rank.weight * MULT_2 +
               //kicker
-              comb.toIndexedSeq(4).rank.getWeight * MULT_3
+              comb.toIndexedSeq(4).rank.weight * MULT_3
             ))
         }
     }
@@ -264,10 +264,10 @@ class CombinationChecker(cards: Seq[ICard]) extends ICombinationChecker {
         //take 5: Q Q A K J
         val comb = (_pair ++ sortedByRanks.diff(_pair.toSet)).take(5)
         Some(Combination(comb, comb.take(2), WEIGHT_ONE_PAIR +
-          comb.toIndexedSeq(0).rank.getWeight * MULT_1 +
-          comb.toIndexedSeq(2).rank.getWeight * MULT_2 +
-          comb.toIndexedSeq(3).rank.getWeight * MULT_3 +
-          comb.toIndexedSeq(4).rank.getWeight * MULT_4
+          comb.toIndexedSeq(0).rank.weight * MULT_1 +
+          comb.toIndexedSeq(2).rank.weight * MULT_2 +
+          comb.toIndexedSeq(3).rank.weight * MULT_3 +
+          comb.toIndexedSeq(4).rank.weight * MULT_4
         ))
     }
   }
@@ -277,11 +277,11 @@ class CombinationChecker(cards: Seq[ICard]) extends ICombinationChecker {
     val sorted = sortByRank(cards)
 
     Some(Combination(sorted.take(5).toSeq, sorted.take(1).toSeq, WEIGHT_HIGHCARD +
-      sorted.toIndexedSeq(0).rank.getWeight * MULT_1 +
-      sorted.toIndexedSeq(1).rank.getWeight * MULT_2 +
-      sorted.toIndexedSeq(2).rank.getWeight * MULT_3 +
-      sorted.toIndexedSeq(3).rank.getWeight * MULT_4 +
-      sorted.toIndexedSeq(4).rank.getWeight * MULT_5
+      sorted.toIndexedSeq(0).rank.weight * MULT_1 +
+      sorted.toIndexedSeq(1).rank.weight * MULT_2 +
+      sorted.toIndexedSeq(2).rank.weight * MULT_3 +
+      sorted.toIndexedSeq(3).rank.weight * MULT_4 +
+      sorted.toIndexedSeq(4).rank.weight * MULT_5
     ))
   }
 }

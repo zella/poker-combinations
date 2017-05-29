@@ -17,7 +17,6 @@ class CombinationResolverTest extends Matchers {
 
   @Test
   def resolve(): Unit = {
-
     val playersAndCards = Map[String, Seq[ICard]](
       "1" -> Seq(Card(Heart, A), Card(Diamond, K)),
       "2" -> Seq(Card(Heart, N(10)), Card(Diamond, N(10))),

@@ -8,11 +8,8 @@ import org.zella.combination.{Combination, ICombinationResolver}
   */
 class CombinationResolver[T] extends ICombinationResolver[T] {
 
-  override def resolve(
-                        playersCards: Map[T, Seq[ICard]],
-                        tableCards: Seq[ICard]):
-  Seq[(Combination, T)] = {
-
+  override def resolve(playersCards: Map[T, Seq[ICard]],
+                       tableCards: Seq[ICard]): Seq[(Combination, T)] = {
     playersCards.map((kv) => resolverSingle(kv._2, tableCards, kv._1)).toSeq.sortBy(tuple => tuple._1.weight).reverse
   }
 
@@ -48,6 +45,5 @@ class CombinationResolver[T] extends ICombinationResolver[T] {
                              tableCards: Seq[ICard],
                              player: T):
   (Combination, T) = (checkCombination(playerCards ++ tableCards), player)
-
 
 }
