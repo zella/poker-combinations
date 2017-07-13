@@ -25,7 +25,7 @@ class CombinationCheckerTest extends Matchers {
       Card(Club, N(10)),
       Card(Diamond, N(8)))
 
-    new CombinationChecker(cards).sortByRank(cards).toSeq should contain theSameElementsInOrderAs Seq(
+    new CombinationChecker(cards).sortedByRank.toSeq should contain theSameElementsInOrderAs Seq(
       Card(Club, A),
       Card(Club, K),
       Card(Heart, N(10)),

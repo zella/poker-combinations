@@ -33,9 +33,10 @@ class CombinationChecker(cards: Seq[ICard]) extends ICombinationChecker {
   private val MULT_4 = 100
   private val MULT_5 = 1
 
-  def sortByRank(cards: Seq[ICard]): mutable.LinkedHashSet[ICard] = {
+  lazy val sortedByRank: mutable.LinkedHashSet[ICard] = {
     mutable.LinkedHashSet(cards.sorted(Ordering[Weight].reverse): _*)
   }
+  lazy val sortedByRankIndexed: IndexedSeq[ICard] = sortedByRank.toIndexedSeq
 
   def sortByRankTyzLower(cards: Seq[ICard]): Seq[ICard] = cards.sortWith((c1, c2) => {
     val r1 = if (c1.rank.equals(A)) N(1) else c1.rank
@@ -91,7 +92,7 @@ class CombinationChecker(cards: Seq[ICard]) extends ICombinationChecker {
     */
   override def check1RoyalFlush(): Option[Combination] = {
 
-    val sameSuits5 = sortByRank(cards).groupBy(_.suit).find(_._2.size >= 5).map(_._2.take(5).toSeq)
+    val sameSuits5 = sortedByRank.groupBy(_.suit).find(_._2.size >= 5).map(_._2.take(5).toSeq)
 
     sameSuits5 match {
       case Some(Seq(Card(_, A), Card(_, K), Card(_, Q), Card(_, J), Card(_, N(10)))) =>
@@ -102,7 +103,7 @@ class CombinationChecker(cards: Seq[ICard]) extends ICombinationChecker {
 
 
   override def check2StraightFlush(): Option[Combination] = {
-    val sameSuits = sortByRank(cards).groupBy(_.suit).find(_._2.size >= 5).map(_._2.toSeq)
+    val sameSuits = sortedByRank.groupBy(_.suit).find(_._2.size >= 5).map(_._2.toSeq)
     sameSuits match {
       case Some(_cards) => isStraightInternal(_cards, WEIGHT_STRAIGHTFLUSH)
       case _ => None
@@ -112,8 +113,7 @@ class CombinationChecker(cards: Seq[ICard]) extends ICombinationChecker {
 
   override def check3Kare(): Option[Combination] = {
 
-    val sortedByRanks = sortByRank(cards)
-    val fourSeq = groupByRankOrdered(sortedByRanks.toSeq).find(_._2.size == 4).map(_._2)
+    val fourSeq = groupByRankOrdered(sortedByRank.toSeq).find(_._2.size == 4).map(_._2)
 
     fourSeq match {
       case None => None
@@ -124,7 +124,7 @@ class CombinationChecker(cards: Seq[ICard]) extends ICombinationChecker {
         //sortedByRanks diff pair: A 10 9
         //four + diff: Q Q Q Q A 10 9
         //take 5: Q Q Q Q A
-        val comb = (_four ++ sortedByRanks.diff(_four.toSet)).take(5)
+        val comb = (_four ++ sortedByRank.diff(_four.toSet)).take(5)
         Some(Combination(comb, comb.take(4), WEIGHT_KARE +
           comb.toIndexedSeq(1).rank.weight * MULT_1 +
           comb.toIndexedSeq(4).rank.weight * MULT_2
@@ -135,13 +135,12 @@ class CombinationChecker(cards: Seq[ICard]) extends ICombinationChecker {
 
   override def check4FullHouse(): Option[Combination] = {
 
-    val sortedByRanks = sortByRank(cards)
-    val threeSeq = groupByRankOrdered(sortedByRanks.toSeq).find(_._2.size == 3).map(_._2)
+    val threeSeq = groupByRankOrdered(sortedByRank.toSeq).find(_._2.size == 3).map(_._2)
 
     threeSeq match {
       case None => None
       case Some(present) =>
-        val other = sortedByRanks.diff(present.toSet)
+        val other = sortedByRank.diff(present.toSet)
         val twoSeq = groupByRankOrdered(other.toSeq).find(_._2.size == 2).map(_._2)
         twoSeq match {
           case None => None
@@ -165,8 +164,8 @@ class CombinationChecker(cards: Seq[ICard]) extends ICombinationChecker {
 
 
   override def check5Flush(): Option[Combination] = {
-    val sortedByRanks = sortByRank(cards)
-    sortedByRanks
+
+    sortedByRank
       .groupBy(_.suit)
       .find(_._2.size >= 5)
       .map(_._2.take(5).toSeq)
@@ -182,15 +181,13 @@ class CombinationChecker(cards: Seq[ICard]) extends ICombinationChecker {
 
 
   override def check6Straight(): Option[Combination] = {
-    val sortedByRanks = sortByRank(cards)
-    isStraightInternal(sortedByRanks.toSeq, WEIGHT_STRAIGHT)
+    isStraightInternal(sortedByRankIndexed, WEIGHT_STRAIGHT)
   }
 
 
   override def check7Three(): Option[Combination] = {
 
-    val sortedByRanks = sortByRank(cards)
-    val threeSeq = groupByRankOrdered(sortedByRanks.toSeq).find(_._2.size == 3).map(_._2)
+    val threeSeq = groupByRankOrdered(sortedByRank.toSeq).find(_._2.size == 3).map(_._2)
 
     threeSeq match {
       case None => None
@@ -201,7 +198,7 @@ class CombinationChecker(cards: Seq[ICard]) extends ICombinationChecker {
         //sortedByRanks diff pair: A J 10 9
         //three + diff: Q Q Q A J 10 9
         //take 5: Q Q Q A J
-        val comb = (_three ++ sortedByRanks.diff(_three.toSet)).take(5)
+        val comb = (_three ++ sortedByRank.diff(_three.toSet)).take(5)
         Some(Combination(comb, comb.take(3), WEIGHT_THREE +
           comb.toIndexedSeq(0).rank.weight * MULT_1 +
           comb.toIndexedSeq(3).rank.weight * MULT_2 +
@@ -212,14 +209,13 @@ class CombinationChecker(cards: Seq[ICard]) extends ICombinationChecker {
 
 
   override def check8TwoPair(): Option[Combination] = {
-    val sortedByRanks = sortByRank(cards)
 
-    val twoSeqOne = groupByRankOrdered(sortedByRanks.toSeq).find(_._2.size == 2).map(_._2)
+    val twoSeqOne = groupByRankOrdered(sortedByRankIndexed).find(_._2.size == 2).map(_._2)
 
     twoSeqOne match {
       case None => None
       case Some(present) =>
-        val other = sortedByRanks.diff(present.toSet)
+        val other = sortedByRank.diff(present.toSet)
         val twoSeq = groupByRankOrdered(other.toSeq).find(_._2.size == 2).map(_._2)
         twoSeq match {
           case None => None
@@ -233,7 +229,7 @@ class CombinationChecker(cards: Seq[ICard]) extends ICombinationChecker {
             //twoSeqOne + twoSeq + last: Q Q J J A 10 9
             //take 5: Q Q J J A
 
-            val res1 = sortedByRanks.diff(present.toSet)
+            val res1 = sortedByRank.diff(present.toSet)
 
             val res2 = res1.diff(presentAlso.toSet)
 
@@ -251,8 +247,7 @@ class CombinationChecker(cards: Seq[ICard]) extends ICombinationChecker {
 
 
   override def check9Pair(): Option[Combination] = {
-    val sortedByRanks = sortByRank(cards)
-    val pair = groupByRankOrdered(sortedByRanks.toSeq).find(_._2.size == 2).map(_._2)
+    val pair = groupByRankOrdered(sortedByRankIndexed).find(_._2.size == 2).map(_._2)
 
     pair match {
       case None => None
@@ -262,7 +257,7 @@ class CombinationChecker(cards: Seq[ICard]) extends ICombinationChecker {
         //sortedByRanks diff pair: A K J 10 9
         //pair + diff: Q Q A K J 10 9
         //take 5: Q Q A K J
-        val comb = (_pair ++ sortedByRanks.diff(_pair.toSet)).take(5)
+        val comb = (_pair ++ sortedByRank.diff(_pair.toSet)).take(5)
         Some(Combination(comb, comb.take(2), WEIGHT_ONE_PAIR +
           comb.toIndexedSeq(0).rank.weight * MULT_1 +
           comb.toIndexedSeq(2).rank.weight * MULT_2 +
@@ -274,14 +269,13 @@ class CombinationChecker(cards: Seq[ICard]) extends ICombinationChecker {
 
 
   override def check10HighCard(): Option[Combination] = {
-    val sorted = sortByRank(cards)
 
-    Some(Combination(sorted.take(5).toSeq, sorted.take(1).toSeq, WEIGHT_HIGHCARD +
-      sorted.toIndexedSeq(0).rank.weight * MULT_1 +
-      sorted.toIndexedSeq(1).rank.weight * MULT_2 +
-      sorted.toIndexedSeq(2).rank.weight * MULT_3 +
-      sorted.toIndexedSeq(3).rank.weight * MULT_4 +
-      sorted.toIndexedSeq(4).rank.weight * MULT_5
+    Some(Combination(sortedByRank.take(5).toSeq, sortedByRank.take(1).toSeq, WEIGHT_HIGHCARD +
+      sortedByRankIndexed(0).rank.weight * MULT_1 +
+      sortedByRankIndexed(1).rank.weight * MULT_2 +
+      sortedByRankIndexed(2).rank.weight * MULT_3 +
+      sortedByRankIndexed(3).rank.weight * MULT_4 +
+      sortedByRankIndexed(4).rank.weight * MULT_5
     ))
   }
 }

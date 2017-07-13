@@ -47,3 +47,7 @@ class CombinationResolver[T] extends ICombinationResolver[T] {
   (Combination, T) = (checkCombination(playerCards ++ tableCards), player)
 
 }
+
+object CombinationResolver {
+  def apply[T]: CombinationResolver[T] = new CombinationResolver[T]()
+}
