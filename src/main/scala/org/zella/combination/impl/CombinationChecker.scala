@@ -56,34 +56,36 @@ class CombinationChecker(cards: Seq[ICard]) extends ICombinationChecker {
     source.groupBy(_.rank).toSeq.sortBy(_._1).reverse
   }
 
-  private def isStraightInternal(sorted: Seq[ICard], baseWeight: Long): Option[Combination] = this.synchronized {
 
-    //TODO remove return
 
-    val withhoutDuplicates = groupByRankOrdered(sorted).sortBy(_._1).reverse.map(_._2.head)
+    private def isStraightInternal(sorted: Seq[ICard], baseWeight: Long): Option[Combination] = this.synchronized {
 
-    var test = subSeqBasedOnRank(withhoutDuplicates, Seq(N(10), J, Q, K, A).reverse)
-    if (test.isDefined) return test.map(seq => Combination(seq, seq, baseWeight + A.weight * MULT_1))
-    test = subSeqBasedOnRank(withhoutDuplicates, Seq(N(9), N(10), J, Q, K).reverse)
-    if (test.isDefined) return test.map(seq => Combination(seq, seq, baseWeight + K.weight * MULT_1))
-    test = subSeqBasedOnRank(withhoutDuplicates, Seq(N(8), N(9), N(10), J, Q).reverse)
-    if (test.isDefined) return test.map(seq => Combination(seq, seq, baseWeight + Q.weight * MULT_1))
-    test = subSeqBasedOnRank(withhoutDuplicates, Seq(N(7), N(8), N(9), N(10), J).reverse)
-    if (test.isDefined) return test.map(seq => Combination(seq, seq, baseWeight + J.weight * MULT_1))
-    test = subSeqBasedOnRank(withhoutDuplicates, Seq(N(6), N(7), N(8), N(9), N(10)).reverse)
-    if (test.isDefined) return test.map(seq => Combination(seq, seq, baseWeight + N(10).weight * MULT_1))
-    test = subSeqBasedOnRank(withhoutDuplicates, Seq(N(5), N(6), N(7), N(8), N(9)).reverse)
-    if (test.isDefined) return test.map(seq => Combination(seq, seq, baseWeight + N(9).weight * MULT_1))
-    test = subSeqBasedOnRank(withhoutDuplicates, Seq(N(4), N(5), N(6), N(7), N(8)).reverse)
-    if (test.isDefined) return test.map(seq => Combination(seq, seq, baseWeight + N(8).weight * MULT_1))
-    test = subSeqBasedOnRank(withhoutDuplicates, Seq(N(3), N(4), N(5), N(6), N(7)).reverse)
-    if (test.isDefined) return test.map(seq => Combination(seq, seq, baseWeight + N(7).weight * MULT_1))
-    test = subSeqBasedOnRank(withhoutDuplicates, Seq(N(2), N(3), N(4), N(5), N(6)).reverse)
-    if (test.isDefined) return test.map(seq => Combination(seq, seq, baseWeight + N(6).weight * MULT_1))
-    test = subSeqBasedOnRank(sortByRankTyzLower(withhoutDuplicates), Seq(A, N(2), N(3), N(4), N(5)).reverse)
-    if (test.isDefined) return test.map(seq => Combination(seq, seq, baseWeight + N(5).weight * MULT_1))
-    None
-  }
+      //TODO remove return
+
+      val withhoutDuplicates = groupByRankOrdered(sorted).sortBy(_._1).reverse.map(_._2.head)
+
+      var test = subSeqBasedOnRank(withhoutDuplicates, Seq(N(10), J, Q, K, A).reverse)
+      if (test.isDefined) return test.map(seq => Combination(seq, seq, baseWeight + A.weight * MULT_1))
+      test = subSeqBasedOnRank(withhoutDuplicates, Seq(N(9), N(10), J, Q, K).reverse)
+      if (test.isDefined) return test.map(seq => Combination(seq, seq, baseWeight + K.weight * MULT_1))
+      test = subSeqBasedOnRank(withhoutDuplicates, Seq(N(8), N(9), N(10), J, Q).reverse)
+      if (test.isDefined) return test.map(seq => Combination(seq, seq, baseWeight + Q.weight * MULT_1))
+      test = subSeqBasedOnRank(withhoutDuplicates, Seq(N(7), N(8), N(9), N(10), J).reverse)
+      if (test.isDefined) return test.map(seq => Combination(seq, seq, baseWeight + J.weight * MULT_1))
+      test = subSeqBasedOnRank(withhoutDuplicates, Seq(N(6), N(7), N(8), N(9), N(10)).reverse)
+      if (test.isDefined) return test.map(seq => Combination(seq, seq, baseWeight + N(10).weight * MULT_1))
+      test = subSeqBasedOnRank(withhoutDuplicates, Seq(N(5), N(6), N(7), N(8), N(9)).reverse)
+      if (test.isDefined) return test.map(seq => Combination(seq, seq, baseWeight + N(9).weight * MULT_1))
+      test = subSeqBasedOnRank(withhoutDuplicates, Seq(N(4), N(5), N(6), N(7), N(8)).reverse)
+      if (test.isDefined) return test.map(seq => Combination(seq, seq, baseWeight + N(8).weight * MULT_1))
+      test = subSeqBasedOnRank(withhoutDuplicates, Seq(N(3), N(4), N(5), N(6), N(7)).reverse)
+      if (test.isDefined) return test.map(seq => Combination(seq, seq, baseWeight + N(7).weight * MULT_1))
+      test = subSeqBasedOnRank(withhoutDuplicates, Seq(N(2), N(3), N(4), N(5), N(6)).reverse)
+      if (test.isDefined) return test.map(seq => Combination(seq, seq, baseWeight + N(6).weight * MULT_1))
+      test = subSeqBasedOnRank(sortByRankTyzLower(withhoutDuplicates), Seq(A, N(2), N(3), N(4), N(5)).reverse)
+      if (test.isDefined) return test.map(seq => Combination(seq, seq, baseWeight + N(5).weight * MULT_1))
+      None
+    }
 
   /**
     * Check cards for royal flush
@@ -113,7 +115,7 @@ class CombinationChecker(cards: Seq[ICard]) extends ICombinationChecker {
 
   override def check3Kare(): Option[Combination] = {
 
-    val fourSeq = groupByRankOrdered(sortedByRank.toSeq).find(_._2.size == 4).map(_._2)
+    val fourSeq = groupByRankOrdered(sortedByRankIndexed).find(_._2.size == 4).map(_._2)
 
     fourSeq match {
       case None => None
@@ -135,7 +137,7 @@ class CombinationChecker(cards: Seq[ICard]) extends ICombinationChecker {
 
   override def check4FullHouse(): Option[Combination] = {
 
-    val threeSeq = groupByRankOrdered(sortedByRank.toSeq).find(_._2.size == 3).map(_._2)
+    val threeSeq = groupByRankOrdered(sortedByRankIndexed).find(_._2.size == 3).map(_._2)
 
     threeSeq match {
       case None => None
@@ -187,7 +189,7 @@ class CombinationChecker(cards: Seq[ICard]) extends ICombinationChecker {
 
   override def check7Three(): Option[Combination] = {
 
-    val threeSeq = groupByRankOrdered(sortedByRank.toSeq).find(_._2.size == 3).map(_._2)
+    val threeSeq = groupByRankOrdered(sortedByRankIndexed).find(_._2.size == 3).map(_._2)
 
     threeSeq match {
       case None => None
@@ -270,7 +272,7 @@ class CombinationChecker(cards: Seq[ICard]) extends ICombinationChecker {
 
   override def check10HighCard(): Option[Combination] = {
 
-    Some(Combination(sortedByRank.take(5).toSeq, sortedByRank.take(1).toSeq, WEIGHT_HIGHCARD +
+    Some(Combination(sortedByRankIndexed.take(5), sortedByRankIndexed.take(1), WEIGHT_HIGHCARD +
       sortedByRankIndexed(0).rank.weight * MULT_1 +
       sortedByRankIndexed(1).rank.weight * MULT_2 +
       sortedByRankIndexed(2).rank.weight * MULT_3 +
