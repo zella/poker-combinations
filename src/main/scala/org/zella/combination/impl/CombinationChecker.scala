@@ -14,17 +14,7 @@ import scala.collection.mutable
   */
 class CombinationChecker(cards: Seq[ICard]) extends ICombinationChecker {
 
-  //веса комбинации
-  private val WEIGHT_ROYALFLUSH = 100000000000L
-  private val WEIGHT_STRAIGHTFLUSH = 90000000000L
-  private val WEIGHT_KARE = 80000000000L
-  private val WEIGHT_FULL_HOUSE = 70000000000L
-  private val WEIGHT_FLUSH = 60000000000L
-  private val WEIGHT_STRAIGHT = 50000000000L
-  private val WEIGHT_THREE = 40000000000L
-  private val WEIGHT_TWO_PAIR = 30000000000L
-  private val WEIGHT_ONE_PAIR = 20000000000L
-  private val WEIGHT_HIGHCARD = 10000000000L
+  import CombinationChecker._
 
   //умножатели весов карт
   private val MULT_1 = 100000000
@@ -57,35 +47,34 @@ class CombinationChecker(cards: Seq[ICard]) extends ICombinationChecker {
   }
 
 
+  private def isStraightInternal(sorted: Seq[ICard], baseWeight: Long): Option[Combination] = this.synchronized {
 
-    private def isStraightInternal(sorted: Seq[ICard], baseWeight: Long): Option[Combination] = this.synchronized {
+    //TODO remove return
 
-      //TODO remove return
+    val withhoutDuplicates = groupByRankOrdered(sorted).sortBy(_._1).reverse.map(_._2.head)
 
-      val withhoutDuplicates = groupByRankOrdered(sorted).sortBy(_._1).reverse.map(_._2.head)
-
-      var test = subSeqBasedOnRank(withhoutDuplicates, Seq(N(10), J, Q, K, A).reverse)
-      if (test.isDefined) return test.map(seq => Combination(seq, seq, baseWeight + A.weight * MULT_1))
-      test = subSeqBasedOnRank(withhoutDuplicates, Seq(N(9), N(10), J, Q, K).reverse)
-      if (test.isDefined) return test.map(seq => Combination(seq, seq, baseWeight + K.weight * MULT_1))
-      test = subSeqBasedOnRank(withhoutDuplicates, Seq(N(8), N(9), N(10), J, Q).reverse)
-      if (test.isDefined) return test.map(seq => Combination(seq, seq, baseWeight + Q.weight * MULT_1))
-      test = subSeqBasedOnRank(withhoutDuplicates, Seq(N(7), N(8), N(9), N(10), J).reverse)
-      if (test.isDefined) return test.map(seq => Combination(seq, seq, baseWeight + J.weight * MULT_1))
-      test = subSeqBasedOnRank(withhoutDuplicates, Seq(N(6), N(7), N(8), N(9), N(10)).reverse)
-      if (test.isDefined) return test.map(seq => Combination(seq, seq, baseWeight + N(10).weight * MULT_1))
-      test = subSeqBasedOnRank(withhoutDuplicates, Seq(N(5), N(6), N(7), N(8), N(9)).reverse)
-      if (test.isDefined) return test.map(seq => Combination(seq, seq, baseWeight + N(9).weight * MULT_1))
-      test = subSeqBasedOnRank(withhoutDuplicates, Seq(N(4), N(5), N(6), N(7), N(8)).reverse)
-      if (test.isDefined) return test.map(seq => Combination(seq, seq, baseWeight + N(8).weight * MULT_1))
-      test = subSeqBasedOnRank(withhoutDuplicates, Seq(N(3), N(4), N(5), N(6), N(7)).reverse)
-      if (test.isDefined) return test.map(seq => Combination(seq, seq, baseWeight + N(7).weight * MULT_1))
-      test = subSeqBasedOnRank(withhoutDuplicates, Seq(N(2), N(3), N(4), N(5), N(6)).reverse)
-      if (test.isDefined) return test.map(seq => Combination(seq, seq, baseWeight + N(6).weight * MULT_1))
-      test = subSeqBasedOnRank(sortByRankTyzLower(withhoutDuplicates), Seq(A, N(2), N(3), N(4), N(5)).reverse)
-      if (test.isDefined) return test.map(seq => Combination(seq, seq, baseWeight + N(5).weight * MULT_1))
-      None
-    }
+    var test = subSeqBasedOnRank(withhoutDuplicates, Seq(N(10), J, Q, K, A).reverse)
+    if (test.isDefined) return test.map(seq => Combination(seq, seq, baseWeight + A.weight * MULT_1))
+    test = subSeqBasedOnRank(withhoutDuplicates, Seq(N(9), N(10), J, Q, K).reverse)
+    if (test.isDefined) return test.map(seq => Combination(seq, seq, baseWeight + K.weight * MULT_1))
+    test = subSeqBasedOnRank(withhoutDuplicates, Seq(N(8), N(9), N(10), J, Q).reverse)
+    if (test.isDefined) return test.map(seq => Combination(seq, seq, baseWeight + Q.weight * MULT_1))
+    test = subSeqBasedOnRank(withhoutDuplicates, Seq(N(7), N(8), N(9), N(10), J).reverse)
+    if (test.isDefined) return test.map(seq => Combination(seq, seq, baseWeight + J.weight * MULT_1))
+    test = subSeqBasedOnRank(withhoutDuplicates, Seq(N(6), N(7), N(8), N(9), N(10)).reverse)
+    if (test.isDefined) return test.map(seq => Combination(seq, seq, baseWeight + N(10).weight * MULT_1))
+    test = subSeqBasedOnRank(withhoutDuplicates, Seq(N(5), N(6), N(7), N(8), N(9)).reverse)
+    if (test.isDefined) return test.map(seq => Combination(seq, seq, baseWeight + N(9).weight * MULT_1))
+    test = subSeqBasedOnRank(withhoutDuplicates, Seq(N(4), N(5), N(6), N(7), N(8)).reverse)
+    if (test.isDefined) return test.map(seq => Combination(seq, seq, baseWeight + N(8).weight * MULT_1))
+    test = subSeqBasedOnRank(withhoutDuplicates, Seq(N(3), N(4), N(5), N(6), N(7)).reverse)
+    if (test.isDefined) return test.map(seq => Combination(seq, seq, baseWeight + N(7).weight * MULT_1))
+    test = subSeqBasedOnRank(withhoutDuplicates, Seq(N(2), N(3), N(4), N(5), N(6)).reverse)
+    if (test.isDefined) return test.map(seq => Combination(seq, seq, baseWeight + N(6).weight * MULT_1))
+    test = subSeqBasedOnRank(sortByRankTyzLower(withhoutDuplicates), Seq(A, N(2), N(3), N(4), N(5)).reverse)
+    if (test.isDefined) return test.map(seq => Combination(seq, seq, baseWeight + N(5).weight * MULT_1))
+    None
+  }
 
   /**
     * Check cards for royal flush
@@ -280,4 +269,20 @@ class CombinationChecker(cards: Seq[ICard]) extends ICombinationChecker {
       sortedByRankIndexed(4).rank.weight * MULT_5
     ))
   }
+}
+
+object CombinationChecker {
+
+  //веса комбинации
+  val WEIGHT_ROYALFLUSH = 100000000000L
+  val WEIGHT_STRAIGHTFLUSH = 90000000000L
+  val WEIGHT_KARE = 80000000000L
+  val WEIGHT_FULL_HOUSE = 70000000000L
+  val WEIGHT_FLUSH = 60000000000L
+  val WEIGHT_STRAIGHT = 50000000000L
+  val WEIGHT_THREE = 40000000000L
+  val WEIGHT_TWO_PAIR = 30000000000L
+  val WEIGHT_ONE_PAIR = 20000000000L
+  val WEIGHT_HIGHCARD = 10000000000L
+
 }
