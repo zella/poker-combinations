@@ -10,5 +10,5 @@ libraryDependencies += "com.novocode" % "junit-interface" % "0.11" % "test"
 libraryDependencies += "org.scalatest" % "scalatest_2.12" % "3.0.1"
 
 // https://mvnrepository.com/artifact/com.typesafe.play/play-json_2.12
-libraryDependencies += "com.typesafe.play" % "play-json_2.12" % "2.6.0-RC1"
+libraryDependencies += "com.typesafe.play" % "play-json_2.12" % "2.6.2"
 
