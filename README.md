@@ -1,6 +1,8 @@
 # poker-combinations
 Scala/java library for resolving texas holdem combinations
 
+[![](https://jitpack.io/v/zella/poker-combinations.svg)](https://jitpack.io/#zella/poker-combinations)
+
  ## Usage
     
  
