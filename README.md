@@ -10,6 +10,8 @@ Scala/java library for resolving texas holdem combinations
 
     val computed: Seq[(String,Combination)] = resolver.resolve(playersAndCards, tableCards)`
     
+  returns sequens of all players combinations.
+    
    Where `String` - YourPlayerIdType
   
   `Combination` -
