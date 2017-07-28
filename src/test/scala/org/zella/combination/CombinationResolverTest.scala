@@ -81,11 +81,7 @@ class CombinationResolverTest extends Matchers {
     computed.toIndexedSeq(2) shouldEqual combPlayer3
     computed.toIndexedSeq(3) should (equal(combPlayer4) or equal(combPlayer1))
     computed.toIndexedSeq(4) should (equal(combPlayer1) or equal(combPlayer4))
-
-    computed should (
-      contain theSameElementsInOrderAs Seq(combPlayer2, combPlayer5, combPlayer3, combPlayer4, combPlayer1)
-        or contain theSameElementsInOrderAs Seq(combPlayer2, combPlayer5, combPlayer3, combPlayer1, combPlayer4)
-      )
+    computed should have size 5
   }
 
 }

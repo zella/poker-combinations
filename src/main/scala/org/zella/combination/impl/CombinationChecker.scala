@@ -34,7 +34,7 @@ class CombinationChecker(cards: Seq[ICard]) extends ICombinationChecker {
     r1 > r2
   })
 
-  def subSeqBasedOnRank[T <: ICard](seq: Seq[T], ranks: Seq[Rank]): Option[Seq[ICard]] = {
+  def subSeqBasedOnRank(seq: Seq[ICard], ranks: Seq[Rank]): Option[Seq[ICard]] = {
     //реверс, для того чтобы с большей карты слева начинали
     seq.map(_.rank).indexOfSlice(ranks) match {
       case -1 => None

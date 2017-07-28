@@ -592,8 +592,6 @@ class CombinationCheckerTest extends Matchers {
   @Test
   def highCard(): Unit = {
 
-    println("Starting test high card...")
-
     val cards = Seq(
       Card(Heart, Q),
       Card(Club, N(8)),
@@ -614,16 +612,8 @@ class CombinationCheckerTest extends Matchers {
       Seq(
         Card(Club, K)),
       10000000000L + 100000000 * 13 + 1000000 * 12 + 10000 * 11 + 100 * 9 + 8))
-
-    println("Test high card ends")
   }
 
-  @Deprecated
-  def testPerformace(): Unit = {
-    //1000000: 20 sec = 0.02ms per test
-    for (i <- 1 to 100000)
-      straightFlushFromAYes()
-  }
 
 
 }
