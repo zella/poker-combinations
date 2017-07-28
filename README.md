@@ -6,7 +6,7 @@ Scala/java library for resolving texas holdem combinations
  
     val resolver = CombinationResolver[String]() //thread safe instance
 
-    val computed: Seq[(Combination, String)] = resolver.resolve(playersAndCards, tableCards)`
+    val computed: Seq[(String,Combination)] = resolver.resolve(playersAndCards, tableCards)`
     
    Where `String` - YourPlayerIdType
   

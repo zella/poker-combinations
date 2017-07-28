@@ -14,8 +14,8 @@ trait ICombinationResolver[T] {
     *
     * @param playersCards map with player and its cards
     * @param tableCards   cards on table
-    * @return ordered seq type of [(combination, combination weight), player]
+    * @return ordered seq type of [player(combination, combination weight)]
     */
-  def resolve(playersCards: Map[T, Seq[ICard]], tableCards: Seq[ICard]): Seq[(Combination, T)]
+  def resolve(playersCards: Map[T, Seq[ICard]], tableCards: Seq[ICard]): Seq[(T, Combination)]
 
 }
