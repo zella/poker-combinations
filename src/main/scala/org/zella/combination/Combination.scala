@@ -7,9 +7,9 @@ import play.api.libs.json.{JsValue, Json}
 
 /**
   *
-  * @param cards       5 карт
-  * @param combination карты из которой состоит комбинация, например AAA при тройке
-  * @param weight      вес комбинации
+  * @param cards       5 cards
+  * @param combination Cards that reflects combination type. Ex: if [KKQQ7] then combiantion = [KKQQ]
+  * @param weight      Combination weight
   */
 case class Combination(cards: Seq[ICard], combination: Seq[ICard], weight: Long) {
 
@@ -30,7 +30,7 @@ case class Combination(cards: Seq[ICard], combination: Seq[ICard], weight: Long)
     }
   }
 
-  def toJson: JsValue = {
+  lazy val toJson: JsValue = {
     Json.obj("cards" -> cards.map(_.toJson),
       "combination" -> combination.map(_.toJson),
       "weight" -> weight
