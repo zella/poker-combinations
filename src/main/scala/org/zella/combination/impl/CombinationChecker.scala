@@ -115,10 +115,10 @@ class CombinationChecker(cards: Seq[ICard]) extends ICombinationChecker {
         //sortedByRanks diff pair: A 10 9
         //four + diff: Q Q Q Q A 10 9
         //take 5: Q Q Q Q A
-        val comb = (_four ++ sortedByRank.diff(_four.toSet)).take(5)
+        val comb = (_four ++ sortedByRank.diff(_four.toSet)).take(5).toIndexedSeq
         Some(Combination(comb, comb.take(4), WEIGHT_KARE +
-          comb.toIndexedSeq(1).rank.weight * MULT_1 +
-          comb.toIndexedSeq(4).rank.weight * MULT_2
+          comb(1).rank.weight * MULT_1 +
+          comb(4).rank.weight * MULT_2
         ))
     }
   }
@@ -143,11 +143,11 @@ class CombinationChecker(cards: Seq[ICard]) extends ICombinationChecker {
             //threeSeq + twoSeq + last: J J J Q Q A 10 9
             //take 5: J J J Q Q
 
-            val comb = present ++ presentAlso
+            val comb = (present ++ presentAlso).toIndexedSeq
 
             Some(Combination(comb, comb, WEIGHT_FULL_HOUSE +
-              comb.toIndexedSeq(0).rank.weight * MULT_1 +
-              comb.toIndexedSeq(3).rank.weight * MULT_2
+              comb(0).rank.weight * MULT_1 +
+              comb(3).rank.weight * MULT_2
             ))
         }
     }
@@ -159,14 +159,14 @@ class CombinationChecker(cards: Seq[ICard]) extends ICombinationChecker {
     sortedByRank
       .groupBy(_.suit)
       .find(_._2.size >= 5)
-      .map(_._2.take(5).toSeq)
+      .map(_._2.take(5).toIndexedSeq)
       .map(_cards => Combination(_cards, _cards,
         WEIGHT_FLUSH +
-          _cards.toIndexedSeq(0).rank.weight * MULT_1 +
-          _cards.toIndexedSeq(1).rank.weight * MULT_2 +
-          _cards.toIndexedSeq(2).rank.weight * MULT_3 +
-          _cards.toIndexedSeq(3).rank.weight * MULT_4 +
-          _cards.toIndexedSeq(4).rank.weight * MULT_5)
+          _cards(0).rank.weight * MULT_1 +
+          _cards(1).rank.weight * MULT_2 +
+          _cards(2).rank.weight * MULT_3 +
+          _cards(3).rank.weight * MULT_4 +
+          _cards(4).rank.weight * MULT_5)
       )
   }
 
@@ -189,11 +189,11 @@ class CombinationChecker(cards: Seq[ICard]) extends ICombinationChecker {
         //sortedByRanks diff pair: A J 10 9
         //three + diff: Q Q Q A J 10 9
         //take 5: Q Q Q A J
-        val comb = (_three ++ sortedByRank.diff(_three.toSet)).take(5)
+        val comb = (_three ++ sortedByRank.diff(_three.toSet)).take(5).toIndexedSeq
         Some(Combination(comb, comb.take(3), WEIGHT_THREE +
-          comb.toIndexedSeq(0).rank.weight * MULT_1 +
-          comb.toIndexedSeq(3).rank.weight * MULT_2 +
-          comb.toIndexedSeq(4).rank.weight * MULT_3
+          comb(0).rank.weight * MULT_1 +
+          comb(3).rank.weight * MULT_2 +
+          comb(4).rank.weight * MULT_3
         ))
     }
   }
@@ -224,13 +224,13 @@ class CombinationChecker(cards: Seq[ICard]) extends ICombinationChecker {
 
             val res2 = res1.diff(presentAlso.toSet)
 
-            val comb = (present ++ presentAlso ++ res2).take(5)
+            val comb = (present ++ presentAlso ++ res2).take(5).toIndexedSeq
 
             Some(Combination(comb, comb.take(4), WEIGHT_TWO_PAIR +
-              comb.toIndexedSeq(0).rank.weight * MULT_1 +
-              comb.toIndexedSeq(2).rank.weight * MULT_2 +
+              comb(0).rank.weight * MULT_1 +
+              comb(2).rank.weight * MULT_2 +
               //kicker
-              comb.toIndexedSeq(4).rank.weight * MULT_3
+              comb(4).rank.weight * MULT_3
             ))
         }
     }
@@ -248,12 +248,12 @@ class CombinationChecker(cards: Seq[ICard]) extends ICombinationChecker {
         //sortedByRanks diff pair: A K J 10 9
         //pair + diff: Q Q A K J 10 9
         //take 5: Q Q A K J
-        val comb = (_pair ++ sortedByRank.diff(_pair.toSet)).take(5)
+        val comb = (_pair ++ sortedByRank.diff(_pair.toSet)).take(5).toIndexedSeq
         Some(Combination(comb, comb.take(2), WEIGHT_ONE_PAIR +
-          comb.toIndexedSeq(0).rank.weight * MULT_1 +
-          comb.toIndexedSeq(2).rank.weight * MULT_2 +
-          comb.toIndexedSeq(3).rank.weight * MULT_3 +
-          comb.toIndexedSeq(4).rank.weight * MULT_4
+          comb(0).rank.weight * MULT_1 +
+          comb(2).rank.weight * MULT_2 +
+          comb(3).rank.weight * MULT_3 +
+          comb(4).rank.weight * MULT_4
         ))
     }
   }
