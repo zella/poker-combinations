@@ -27,6 +27,8 @@ case class Combination(cards: Seq[ICard], combination: Seq[ICard], weight: Long)
       case x if WEIGHT_KARE <= x && x < WEIGHT_STRAIGHTFLUSH => CombinationType.KARE
       case x if WEIGHT_STRAIGHTFLUSH <= x && x < WEIGHT_ROYALFLUSH => CombinationType.STRAIGHTFLUSH
       case x if x >= WEIGHT_ROYALFLUSH => CombinationType.ROYALFLUSH
+      case other => CombinationType.NONE
+
     }
   }
 
@@ -41,5 +43,5 @@ case class Combination(cards: Seq[ICard], combination: Seq[ICard], weight: Long)
 
 object CombinationType extends Enumeration {
   type CombinationType = Value
-  val HIGHCARD, ONE_PAIR, TWO_PAIR, THREE, STRAIGHT, FLUSH, FULL_HOUSE, KARE, STRAIGHTFLUSH, ROYALFLUSH = Value
+  val HIGHCARD, ONE_PAIR, TWO_PAIR, THREE, STRAIGHT, FLUSH, FULL_HOUSE, KARE, STRAIGHTFLUSH, ROYALFLUSH, NONE = Value
 }

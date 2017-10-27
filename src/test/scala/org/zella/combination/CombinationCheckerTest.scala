@@ -442,7 +442,7 @@ class CombinationCheckerTest extends Matchers {
   }
 
   @Test
-  def staightNo(): Unit = {
+  def staightNo1(): Unit = {
 
     val cards = Seq(
       Card(Club, Q),
@@ -453,6 +453,24 @@ class CombinationCheckerTest extends Matchers {
       Card(Club, N(2)),
       Card(Heart, J),
       Card(Club, A)
+    )
+
+    new CombinationChecker(cards).check6Straight() shouldBe None
+  }
+
+  @Test
+  def staightNo2(): Unit = {
+
+    val cards = Seq(
+      Card(Diamond, N(8)),
+      Card(Diamond, J),
+      Card(Club, Q),
+      Card(Club, N(8)),
+      Card(Diamond, K),
+      Card(Club, K),
+      Card(Spade, J),
+      Card(Heart, K),
+      Card(Spade, K)
     )
 
     new CombinationChecker(cards).check6Straight() shouldBe None

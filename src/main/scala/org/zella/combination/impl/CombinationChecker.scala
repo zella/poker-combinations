@@ -46,32 +46,29 @@ class CombinationChecker(cards: Seq[ICard]) extends ICombinationChecker {
     source.groupBy(_.rank).toSeq.sortBy(_._1).reverse
   }
 
-
   private def isStraightInternal(sorted: Seq[ICard], baseWeight: Long): Option[Combination] = this.synchronized {
 
-    //TODO remove return
+    val withoutDuplicates = groupByRankOrdered(sorted).map(_._2.head)
 
-    val withhoutDuplicates = groupByRankOrdered(sorted).sortBy(_._1).reverse.map(_._2.head)
-
-    var test = subSeqBasedOnRank(withhoutDuplicates, Seq(N(10), J, Q, K, A).reverse)
+    var test = subSeqBasedOnRank(withoutDuplicates, Seq(N(10), J, Q, K, A).reverse)
     if (test.isDefined) return test.map(seq => Combination(seq, seq, baseWeight + A.weight * MULT_1))
-    test = subSeqBasedOnRank(withhoutDuplicates, Seq(N(9), N(10), J, Q, K).reverse)
+    test = subSeqBasedOnRank(withoutDuplicates, Seq(N(9), N(10), J, Q, K).reverse)
     if (test.isDefined) return test.map(seq => Combination(seq, seq, baseWeight + K.weight * MULT_1))
-    test = subSeqBasedOnRank(withhoutDuplicates, Seq(N(8), N(9), N(10), J, Q).reverse)
+    test = subSeqBasedOnRank(withoutDuplicates, Seq(N(8), N(9), N(10), J, Q).reverse)
     if (test.isDefined) return test.map(seq => Combination(seq, seq, baseWeight + Q.weight * MULT_1))
-    test = subSeqBasedOnRank(withhoutDuplicates, Seq(N(7), N(8), N(9), N(10), J).reverse)
+    test = subSeqBasedOnRank(withoutDuplicates, Seq(N(7), N(8), N(9), N(10), J).reverse)
     if (test.isDefined) return test.map(seq => Combination(seq, seq, baseWeight + J.weight * MULT_1))
-    test = subSeqBasedOnRank(withhoutDuplicates, Seq(N(6), N(7), N(8), N(9), N(10)).reverse)
+    test = subSeqBasedOnRank(withoutDuplicates, Seq(N(6), N(7), N(8), N(9), N(10)).reverse)
     if (test.isDefined) return test.map(seq => Combination(seq, seq, baseWeight + N(10).weight * MULT_1))
-    test = subSeqBasedOnRank(withhoutDuplicates, Seq(N(5), N(6), N(7), N(8), N(9)).reverse)
+    test = subSeqBasedOnRank(withoutDuplicates, Seq(N(5), N(6), N(7), N(8), N(9)).reverse)
     if (test.isDefined) return test.map(seq => Combination(seq, seq, baseWeight + N(9).weight * MULT_1))
-    test = subSeqBasedOnRank(withhoutDuplicates, Seq(N(4), N(5), N(6), N(7), N(8)).reverse)
+    test = subSeqBasedOnRank(withoutDuplicates, Seq(N(4), N(5), N(6), N(7), N(8)).reverse)
     if (test.isDefined) return test.map(seq => Combination(seq, seq, baseWeight + N(8).weight * MULT_1))
-    test = subSeqBasedOnRank(withhoutDuplicates, Seq(N(3), N(4), N(5), N(6), N(7)).reverse)
+    test = subSeqBasedOnRank(withoutDuplicates, Seq(N(3), N(4), N(5), N(6), N(7)).reverse)
     if (test.isDefined) return test.map(seq => Combination(seq, seq, baseWeight + N(7).weight * MULT_1))
-    test = subSeqBasedOnRank(withhoutDuplicates, Seq(N(2), N(3), N(4), N(5), N(6)).reverse)
+    test = subSeqBasedOnRank(withoutDuplicates, Seq(N(2), N(3), N(4), N(5), N(6)).reverse)
     if (test.isDefined) return test.map(seq => Combination(seq, seq, baseWeight + N(6).weight * MULT_1))
-    test = subSeqBasedOnRank(sortByRankTyzLower(withhoutDuplicates), Seq(A, N(2), N(3), N(4), N(5)).reverse)
+    test = subSeqBasedOnRank(sortByRankTyzLower(withoutDuplicates), Seq(A, N(2), N(3), N(4), N(5)).reverse)
     if (test.isDefined) return test.map(seq => Combination(seq, seq, baseWeight + N(5).weight * MULT_1))
     None
   }
