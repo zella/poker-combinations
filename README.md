@@ -1,27 +1,11 @@
 # poker-combinations
-Scala/java library for resolving texas holdem combinations
+Scala library for resolving texas holdem combinations
 
 [![](https://jitpack.io/v/zella/poker-combinations.svg)](https://jitpack.io/#zella/poker-combinations)
 
  ## Usage
     
- 
-    val resolver = CombinationResolver[String]() //thread safe instance
-
-    val computed: Seq[(String,Combination)] = resolver.resolve(playersAndCards, tableCards)`
-    
-  returns sequens of all players combinations.
-    
-   Where `String` - YourPlayerIdType
-  
-  `Combination` -
-   
-    cards - 5 cards  
-    combination - cards that reflects combination type. Ex: if [KKQQ7] then combiantion = [KKQQ]  
-    weight - weight in `Long`
-    
- 
- **Argument 1:**
+**Argument 1:**
  Map of players identifiers and their cards
     
     val playersAndCards = Map[String, Seq[ICard]](
@@ -41,5 +25,22 @@ Scala/java library for resolving texas holdem combinations
       Card(Heart, J),
       Card(Club, N(9))
     )
+    
+ 
+    val resolver = CombinationResolver[String]() //thread safe instance
+
+    val computed: Seq[(String,Combination)] = resolver.resolve(playersAndCards, tableCards)`
+    
+  returns sequens of all players combinations.
+    
+   Where `String` - YourPlayerIdType
+  
+  `Combination` -
+   
+    cards - 5 cards  
+    combination - cards that reflects combination type. Ex: if [KKQQ7] then combiantion = [KKQQ]  
+    weight - weight in `Long`
+    
+ 
 
 
