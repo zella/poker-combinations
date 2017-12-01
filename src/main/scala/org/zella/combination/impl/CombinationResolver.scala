@@ -40,7 +40,7 @@ class CombinationResolver[T] extends ICombinationResolver[T] {
     if (check9.isDefined) return check9.get
     val check10: Option[Combination] = cc.check10HighCard()
     if (check10.isDefined) return check10.get
-    throw new RuntimeException("Poker combination not found, this should never happen, this is bug")
+    throw new AssertionError("Poker combination not found, this should never happen, this is bug")
   }
 
   private def resolverSingle(playerCards: Seq[ICard],

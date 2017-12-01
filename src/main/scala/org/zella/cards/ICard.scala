@@ -29,17 +29,14 @@ trait ICard extends Weight {
   def toJson: JsValue
 }
 
-case class Card(_suit: Suit, _rank: Rank) extends ICard {
-  override def suit: Suit = _suit
-
-  override def rank: Rank = _rank
+case class Card(suit: Suit, rank: Rank) extends ICard {
 
   override val weight: Int = rank.weight
 
   override lazy val toJson: JsValue = {
     Json.obj(
-      "r" -> _rank.id,
-      "s" -> _suit.name
+      "r" -> rank.id,
+      "s" -> suit.name
     )
   }
 }
